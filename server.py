@@ -23,7 +23,8 @@ def upload(username, password, file, data):
         return "Login Failed"
     else:
         if file not in os.listdir("files"):
-            os.system("touch files/"+file)
+            with open("files/"+file, 'w') as file:
+                pass
         upload = open("files/"+file, 'ab')
         data = data.split()
         for data in data:
@@ -56,5 +57,5 @@ def login(username, password):
 
 if __name__ == "__main__":
     if "files" not in os.listdir(os.getcwd()):
-        os.system("mkdir files")
+        os.mkdir("files")
     app.run(host='0.0.0.0')
