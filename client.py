@@ -46,15 +46,19 @@ class MatchBoxClient:
 
     def upload(self, file):
         with open(file, 'rb') as upload:
+            print "Uploading", file
             for letter in upload.readlines():
                 line = []
                 for x in letter:
                     line.append(str(ord(x)))
                 urllib.urlopen(self.url+"/upload/"+self.username+"/"+self.password+"/"+file+"/"+' '.join(line))
-    
+        print "Done uploading", file
+
     def download(self, file):
         with open(file, 'wb') as download:
+            print "Downloading", file
             download.write(urllib.urlopen(self.url+"/download/"+self.username+"/"+self.password+"/"+file).read())
+        print "Done downloading", file
 
     def delete(self, file):
         os.remove(file)
