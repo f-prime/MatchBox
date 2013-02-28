@@ -1,0 +1,7 @@
+About
+=====
+
+Match Box is a Dropbox type clone that you can install on your personal server to remotely backup your files without worrying about Dropbox getting a hold of them.
+
+Match Box uses the Flask web framework for the server, and all files are transfered using the HTTP protocol.
+
