@@ -5,3 +5,26 @@ Match Box is a Dropbox type clone that you can install on your personal server t
 
 Match Box uses the Flask web framework for the server, and all files are transfered using the HTTP protocol.
 
+How To Setup
+============
+
+Step 1: Copy server.py to your server that you plan to host your Match Box Server.
+
+Step 2: Open server.py and edit username and password to your own information you would like to use.
+
+Step 3: Start server.py (python server.py)
+
+Step 4: Start the client in a new folder (python client.py)
+
+Step 5: Enter your info as needed. (Url should be http://url:5000)
+
+Step 6: Now, every file  inserted into that folder will be uploaded. If a file is removed from that directory it will be automatically downloaded again.
+
+Shell 
+=====
+
+There are two shell commands available in the current version.
+
+rm <file> - Deletes a file on both server side, and client side.
+
+ls - Lists all the files in the current folder.
