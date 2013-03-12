@@ -1,47 +1,59 @@
-from flask import Flask, request
-from hashlib import sha1
-import os
+from flask import Flask
+import os, hashlib
 
 app = Flask(__name__)
-users = {'username':'password'}
+
+users = {
+
+'username':'password',
+
+        }
 
 @app.route("/delete/<username>/<password>/<file>")
 def delete(username, password, file):
-    if login(username, password):
+    if login(username, password) is False:
+        return "Login Failed"
+    else:
         os.remove("files/"+file)
         return "Success"
-    return "Login Failed"
 
-@app.route("/upload/<username>/<password>/<file>", methods=['POST'])
+@app.route("/upload/<username>/<password>/<file>/<data>")
 def upload(username, password, file, data):
-    if login(username, password):
-        f = request.files[file]
+    if login(username, password) is False:
+        return "Login Failed"
+    else:
         if file not in os.listdir("files"):
-            f.save("files/"+file)
-        else:
-            upload = open("files/"+file, 'ab')
-            upload.write(f.read())
-            upload.close()
+            with open("files/"+file, 'w') as file:
+                pass
+        upload = open("files/"+file, 'ab')
+        data = data.split()
+        for data in data:
+            upload.write(chr(int(data)))
+        upload.close()
         return "Success"
-    return "Login Failed"
 
 @app.route("/download/<username>/<password>/<file>")
 def download(username, password, file):
-    if login(username, password):
+    if login(username, password) is False:
+        return "Login Failed"
+    else:
         with open("files/"+file, 'rb') as file:
             return file.read()
-    return "Login Failed"
         
 @app.route("/list/<username>/<password>")
 def list(username, password):
-    if login(username, password):
+    if login(username, password) is False:
+        return "Login Failed"
+    else:
         return str(os.listdir("files"))
-    return "Login Failed"
 
 def login(username, password):
-    if username in users and sha1(users[username]).hexdigest() == password:
+    if username not in users:
+        return False
+    elif hashlib.sha1(users[username]).hexdigest() == password:
         return True
-    return False
+    else:
+        return False
 
 if __name__ == "__main__":
     if "files" not in os.listdir(os.getcwd()):
